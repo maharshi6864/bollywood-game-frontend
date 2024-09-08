@@ -1,0 +1,51 @@
+.userContainer{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameConatiner{
+  height: 90%;
+  width: 90%;
+}
+
+
+
+.playerBox{
+  height: 100%;
+  width: 30%;
+}
+
+.mainBox{
+  display: flex;
+  justify-content: space-between;
+}
+
+.textContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.responsiveText {
+  font-size: clamp(2rem, 5vw, 5rem); /* Responsive font size */
+}
+
+.cutB {
+  position: relative;
+  display: inline-block;
+}
+
+.cutB::after {
+  content: "";
+  position: absolute;
+  top: 82%;
+  left: -10px;
+  width: 225%;
+  height: 0.12em; /* Thickness of the line relative to font size */
+  background-color: red; /* Color of the line */
+  transform: rotate(-45deg); /* Angle of the diagonal line */
+  transform-origin: left top; /* Point where the rotation occurs */
+}
+

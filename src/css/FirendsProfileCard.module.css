@@ -1,0 +1,8 @@
+.imgCircle {
+  border: 1px solid #E6E9ED;
+  padding: 2px;
+  border-radius: 50%;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

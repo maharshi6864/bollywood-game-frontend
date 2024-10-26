@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import store from "./store/index";
+import store from "./store/store";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
@@ -10,11 +10,16 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import OtpConfirm from "./pages/OtpConfirm";
 import Logout from "./pages/Logout";
+import Friends from "./pages/Friends";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/Friends",
+    element: <Friends />,
   },
   {
     path: "/login",

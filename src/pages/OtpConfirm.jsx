@@ -10,6 +10,7 @@ import {
 } from "../service/localStorageManager.js";
 import { resendOtpForRegistration, validateOtp } from "../apis/otpValidation";
 import { useForm } from "react-hook-form";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const OtpConfirm = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const OtpConfirm = () => {
   useEffect(() => {
     setTimeStamp(getRegisterOtpExp());
     if (getRegisterUsername() == null) {
-      navigate(`/login?msg=rc`);
+      navigate(`/login`);
     }
   }, []);
 
@@ -42,13 +43,30 @@ const OtpConfirm = () => {
     setLoading(false);
   };
 
+  const toastInvalidOtp = () =>
+    toast.info("Invalid Otp.", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
   const onSubmit = async (data, e) => {
     e.preventDefault();
     setLoadingConfirmation(true);
     const response = await validateOtp(data.otp);
     if (response.object.message === "valid") {
       localStorage.clear();
-      navigate("/login");
+      navigate(`/login?msg=rc`);
+    } else {
+      console.log("sjdb");
+      setLoadingConfirmation(false);
+      toastInvalidOtp();
     }
   };
 
@@ -110,6 +128,19 @@ const OtpConfirm = () => {
           </button>
         )}
       </form>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      ></ToastContainer>
     </RegisterLoginLayout>
   );
 };

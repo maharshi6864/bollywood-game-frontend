@@ -21,7 +21,7 @@ const Login = () => {
   const message = queryParams.get("msg");
 
   const notifyInfo = () =>
-    toast.info("User Registration Completed.", {
+    toast.info("Registration Completed.", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -62,7 +62,6 @@ const Login = () => {
     let response;
     response = await login(username.current.value, password.current.value);
     if (response.status) {
-      console.log(response, ">>>> REsponse");
       navigate("/");
     } else {
       toastInvalidLogin();

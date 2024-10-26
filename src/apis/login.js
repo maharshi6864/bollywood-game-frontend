@@ -8,6 +8,7 @@ export const login = async (username, password) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -24,7 +25,7 @@ export const logout = async () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(),
-    credentials: "include", // Ensure credentials (cookies) are included
+    credentials: "include",
   });
 
   if (!response.ok) {

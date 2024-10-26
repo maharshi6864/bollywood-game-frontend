@@ -1,9 +1,18 @@
 import { useEffect } from "react";
 import { logout } from "../apis/login";
+import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
+  const navigate = useNavigate();
   useEffect(() => {
-    logout();
+    const logOut = async () => {
+      const response = await logout();
+      if (response) {
+        navigate("/");
+      }
+    };
+
+    logOut();
   }, []);
   return <div>logged out</div>;
 };

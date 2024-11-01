@@ -1,0 +1,27 @@
+/* Styles for the bottom-right profile image */
+.bottom-right-image {
+    position: absolute;
+    bottom: 0px; /* Adjust distance from bottom */
+    right: 0px; /* Adjust distance from right */
+}
+
+.profile-image-bottom {
+    width: 40px;
+    border-radius: 50%;
+}
+
+/* Make the close button visible on dark backgrounds */
+.offcanvas-custom .btn-close {
+    filter: invert(1); /* Inverts the close button color to white */
+}
+
+/* Additional styles for profile image */
+.profile-image-bottom {
+    width: 40px;
+    border-radius: 50%;
+}
+
+/*!* Ensure visibility of any border *!*/
+/*.bottom-right-image {*/
+/*    border-color: rgba(255, 255, 255, 0.5); !* Semi-transparent white border *!*/
+/*}*/

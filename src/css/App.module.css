@@ -74,3 +74,22 @@
   max-width: 17%;
   height: auto;
 }
+
+/* Add a typewriter-like effect */
+.typewriter p {
+  /*font-family: 'Courier New', Courier, monospace;*/
+  white-space: pre-wrap; /* Preserve spaces */
+  overflow: hidden; /* Hide the overflowing text */
+  width: 100%;
+  /*animation: blink-cursor 0.7s step-end infinite;*/
+}
+
+/*!* Blinking cursor animation *!*/
+/*@keyframes blink-cursor {*/
+/*  from, to {*/
+/*    border-color: transparent;*/
+/*  }*/
+/*  50% {*/
+/*    border-color: black;*/
+/*  }*/
+/*}*/

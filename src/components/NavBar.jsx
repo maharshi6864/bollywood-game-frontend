@@ -1,121 +1,103 @@
-import { Link } from "react-router-dom";
-import styles from "../css/App.module.css";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import {Link} from "react-router-dom";
+import '../css/navBarCustomCss.css';
 
-const NavBar = () => {
-  return (
-    <nav
-      className="navbar  navbar-expand-lg bg-black "
-      style={{ color: "#fff" }}
-    >
-      <div className="container-fluid ">
-        <Link to="/" className="navbar-brand" href="#">
-          BOLLYWOOD
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link to="/" className="nav-link active" aria-current="page">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link active" aria-current="page">
-                Create Game
-              </a>
-            </li>
-            <li className="nav-item">
-              <Link
-                to="/Friends"
-                className="nav-link active"
-                aria-current="page"
-              >
-                Friends
-              </Link>
-            </li>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNavDarkDropdown"
-              aria-controls="navbarNavDarkDropdown"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
+
+
+let expand = false;
+
+
+function NavBar() {
+
+
+
+    return (
+        <>
+            <Navbar
+                key={expand}
+                expand={expand}
+                className="bg-black "
+                style={{color: "white",height:"62.5px"}}
             >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarNavDarkDropdown"
-            >
-              <ul className="navbar-nav">
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul className="dropdown-menu dropdown-menu-dark">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </ul>
-          <ul className="navbar-nav ">
-            <li className="nav-item">
-              <Link
-                to="/logout"
-                className="nav-link active"
-                aria-current="page"
-              >
-                <button className="btn btn-primary">logout</button>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <div>
-                <div className="">
-                  <img
-                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                    alt=""
-                    style={{ width: "50px", borderRadius: "50%" }}
-                  />
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );
-};
+                <Container fluid>
+                    <Navbar.Brand href="/" className='fa fs-4 fa-bold' style={{color: "white"}}>
+                        B O L L Y W O O D
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}/>
+                    <Navbar.Offcanvas
+                        id={`offcanvasNavbar-expand-${expand}`}
+                        aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+                        placement="end"
+                        className="bg-black offcanvas-custom" // Offcanvas background set to black and custom class added
+                    >
+                        <Offcanvas.Header closeButton style={{color: "white"}}>
+                            <Offcanvas.Title
+                                id={`offcanvasNavbarLabel-expand-${expand}`}
+                                style={{color: "white"}}
+                            >
+                                <div className='d-flex justify-content-center'>
+                                    <span>Menu</span>
+                                </div>
+                            </Offcanvas.Title>
+                        </Offcanvas.Header>
+                        <Offcanvas.Body className="bg-black border-top" style={{color: "white"}}>
+                            <Nav className="justify-content-end flex-grow-1 pe-3">
+                                <Nav.Link
+                                    as={Link}
+                                    to="/"
+                                    className="nav-link active border-bottom"
+                                    aria-current="page"
+                                    style={{color: "white"}}
+                                >
+                                    Home
+                                </Nav.Link>
+                                <Nav.Link
+                                    as={Link}
+                                    to="/Friends"
+                                    className="nav-link active border-bottom"
+                                    aria-current="page"
+                                    style={{color: "white"}}
+                                >
+                                    Friends
+                                </Nav.Link>
+                                <Nav.Link
+                                    as={Link}
+                                    to="/Profile"
+                                    className="nav-link active border-bottom"
+                                    aria-current="page"
+                                    style={{color: "white"}}
+                                >
+                                    Profile
+                                </Nav.Link>
+
+                            </Nav>
+
+                            {/* Profile Image at Bottom-Right Corner */}
+                            <div
+                                className="bottom-right-image p-3 border-top w-100 d-flex justify-content-between align-items-center">
+                                <Nav.Link
+                                    as={Link}
+                                    to="/logout"
+                                    className="nav-link active text-danger"
+                                    aria-current="page"
+                                >
+                                    Logout
+                                </Nav.Link>
+                                <img
+                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                    alt="Profile"
+                                    className="profile-image-bottom"
+                                />
+                            </div>
+                        </Offcanvas.Body>
+                    </Navbar.Offcanvas>
+                </Container>
+            </Navbar>
+        </>
+    );
+}
 
 export default NavBar;

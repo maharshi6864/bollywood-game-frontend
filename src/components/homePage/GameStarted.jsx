@@ -1,6 +1,6 @@
-import styles from "../css/App.module.css";
+import styles from "../../css/App.module.css";
 
-const StartGame = () => {
+const GameStarted = () => {
   return (
     <div className="row">
       <div className="col-lg-8">
@@ -163,4 +163,4 @@ const StartGame = () => {
   );
 };
 
-export default StartGame;
+export default GameStarted;

@@ -1,55 +1,39 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import styles from "../css/App.module.css";
+import { useNavigate } from "react-router-dom";
 import { loadUser } from "../apis/home";
-import NavBar from "../components/NavBar";
-import GameStarted from "../components/GameStarted";
-import StartGame from "../components/StartGame";
-import NewNavBar from "../components/NewNavBar";
+import GameStarted from "../components/homePage/GameStarted.jsx";
+import StartGame from "../components/homePage/StartGame.jsx";
+import NavBar from "../components/NavBar.jsx";
+import {fetchUserDetails} from "../apis/user.js";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const { username } = useSelector((store) => store.userDetails);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [gamestart, setGameStart] = useState(false);
+    const dispatch = useDispatch();
+    const { username } = useSelector((store) => store.userDetails);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await loadUser();
-        if (response.status) {
-          // console.log(response);
-          setLoading(false);
-        }
-      } catch (error) {
-        navigate("/login");
-      }
-    };
-    fetchUser();
-  }, []);
-  return loading ? (
-    <div>
-      <div className="h-100 w-100 d-flex align-items-center justify-content-center">
-        <div
-          className="spinner-border justify-content-center align-item-center"
-          role="status"
-        >
-          <span className="visually-hidden">Loading...</span>
+    const [loading, setLoading] = useState(false); // Set loading to true initially
+    const [gamestart, setGameStart] = useState(false);
+
+
+
+    return loading ? (
+        <div>
+            <div className="h-100 w-100 d-flex align-items-center justify-content-center">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  ) : (
-    <>
-      <NewNavBar></NewNavBar>
-      <div className="container-fluid">
-        <div className="main">
-          {gamestart ? <GameStarted></GameStarted> : <StartGame></StartGame>}
+    ) : (
+        <div className='h-100'>
+            <NavBar />
+            <div className="container-fluid" style={{ height: "calc(100% - 62.5px)" }}>
+                <div className="main h-100">
+                    {gamestart ? <GameStarted /> : <StartGame setGameStart={setGameStart} />}
+                </div>
+            </div>
         </div>
-      </div>
-    </>
-  );
+    );
 };
 
 export default Home;

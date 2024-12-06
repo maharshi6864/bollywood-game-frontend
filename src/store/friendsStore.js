@@ -16,7 +16,7 @@ const friendsSlice = createSlice({
         changeOnlineStatus: (state, action) => {
             state.friendsList = state.friendsList.map(f => f.friendName === action.payload.username ? {
                 ...f,
-                online: action.payload.status
+                status: action.payload.status
             } : f);
         }
     },

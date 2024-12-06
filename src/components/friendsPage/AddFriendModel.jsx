@@ -36,7 +36,7 @@ function Example({show, handleClose}) {
 
     const addFriend = async ({playerId,playerName,matchesPlayed,matchesWon}) => {
         try {
-            const response = await savefriend(playerId);
+            const response = await savefriend({playerId,playerName});
             if (response.status) { // Check if the addition was successful
                 setSearchResults((prevResults) =>
                     prevResults.map((player) =>
@@ -44,7 +44,7 @@ function Example({show, handleClose}) {
                     )
                 );
 
-                dispatch(friendsActions.addFriend   ({id:response.object.id,friendName:playerName,matchesPlayed,matchesWon}));
+                dispatch(friendsActions.addFriend(response.object));
             }
         } catch (error) {
             console.error("Error adding friend:", error);

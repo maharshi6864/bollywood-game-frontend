@@ -17,8 +17,8 @@ export const searchPlayer = async (searchString) => {
     return response.json();
 };
 
-export const savefriend = async (playerId) => {
-    const data = {id:playerId};
+export const savefriend = async ({playerId,playerName}) => {
+    const data = {id:playerId,playerName:playerName};
     const response = await fetch(GLOBAL_URL + "friend/saveFriend", {
         method: "POST",
         headers: {

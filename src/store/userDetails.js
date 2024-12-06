@@ -4,10 +4,14 @@ const userDetailsSlice = createSlice({
   name: "userDetails",
   initialState: {},
   reducers: {
-    saveUsername: (state, action) => {
-      state = action.payload;
-      console.log(state)
-    },
+    saveUser: (state, action) => {
+      // state = action.payload;
+      // Mutate the existing state with the action payload properties
+      return { ...state, ...action.payload };
+    },changePlayerInGameStatus: (state, action) => {
+      // state.inAGame = action.payload.inAGame;
+      return { ...state, ...action.payload };
+    }
   },
 });
 

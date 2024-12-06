@@ -30,6 +30,7 @@
 
 .responsiveText {
   font-size: clamp(2rem, 5vw, 5rem); /* Responsive font size */
+  /*font-size:5.23rem*/
 }
 
 .cutB {

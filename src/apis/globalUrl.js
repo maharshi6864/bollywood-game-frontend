@@ -1,5 +1,9 @@
-import SockJS from "sockjs-client";
+const protocol = window.location.protocol; // http: or https:
+const hostname = window.location.hostname; // Dynamic hostname
+const port = 8080; // Backend port (adjust if different)
+
+// Dynamically create URLs
+export const GLOBAL_URL = `${protocol}//${hostname}:${port}/`;
+export const SOCKET_URL = `${protocol}//${hostname}:${port}/ws`;
 
 
-export const GLOBAL_URL = "http://localhost:8080/";
-export const SOCKET = new SockJS('http://localhost:8080/ws');

@@ -85,12 +85,55 @@
   /*animation: blink-cursor 0.7s step-end infinite;*/
 }
 
-/*!* Blinking cursor animation *!*/
-/*@keyframes blink-cursor {*/
-/*  from, to {*/
-/*    border-color: transparent;*/
-/*  }*/
-/*  50% {*/
-/*    border-color: black;*/
-/*  }*/
-/*}*/
+/* App.module.css */
+
+/* Player List: Scrollable */
+.player-list-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px); /* Adjust height dynamically based on header/footer */
+}
+
+/* Game ID and Title Section: Equal Height */
+.game-id-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Ensures equal height */
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Playing Section and Player List: Responsive Layout */
+.responsive-game-container {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 91vh; /* Adjusted for the full viewport */
+}
+
+.guess-section, .player-list-section {
+  flex: 1; /* Evenly divide space */
+  overflow: hidden; /* Prevent overflow issues */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+/* Scrollbar for large player lists */
+.player-list-section {
+  overflow-y: auto;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .responsive-game-container {
+    flex-direction: column; /* Stack sections vertically on smaller screens */
+    height: auto;
+  }
+
+  .guess-section, .player-list-section {
+    flex: none;
+    height: auto;
+  }
+}

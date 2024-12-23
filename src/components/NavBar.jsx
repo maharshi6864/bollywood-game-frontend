@@ -18,23 +18,23 @@ function NavBar() { // Destructure username from props
                 style={{ color: "white", height: "62.5px" }}
             >
                 <Container fluid>
-                    <Navbar.Brand href="/" className="fa fs-4 fa-bold" style={{ color: "white" }}>
-                        B O L L Y W O O D
+                    <Navbar.Brand href="/" className="fs-4" style={{ color: "white" }}>
+                        <b>B O L L Y W O O D</b>
                     </Navbar.Brand>
 
                     <div className="d-flex align-items-center">
                         {/* Display Username Next to Menu Button */}
-                        <span className="me-2" style={{ color: "white", fontSize: "16px" }}>
+                        <span className="me-2" style={{ color: "white", fontSize: "16px",position:"absolute",top:"20px",right:"60px" }}>
                             {username}
                         </span>
-                        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+                        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand} `} style={{ color: "white !important" }} />
                     </div>
 
                     <Navbar.Offcanvas
                         id={`offcanvasNavbar-expand-${expand}`}
                         aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
                         placement="end"
-                        className="bg-black offcanvas-custom" // Offcanvas background set to black and custom class added
+                        className="bg-black offcanvas-custom"
                     >
                         <Offcanvas.Header closeButton style={{ color: "white" }}>
                             <Offcanvas.Title

@@ -1,12 +1,14 @@
 // WebSocketContext.jsx
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, {createContext, useContext, useEffect, useRef, useState} from "react";
 import SockJS from "sockjs-client";
 import {over} from "stompjs";
 import {fetchUserDetails} from "./apis/user.js";
 import {useDispatch, useSelector} from "react-redux";
 import {friendsActions} from "./store/friendsStore.js";
-import {userDetailsActions} from "./store/userDetails.js";
 import {gameActions} from "./store/gameStore.js";
+import {userActions} from "./store/userStore.js";
+import {SOCKET_URL} from "./apis/globalUrl.js";
+import {Navigate, useNavigate} from "react-router-dom";
 
 const WebSocketContext = createContext();
 
@@ -16,30 +18,34 @@ export const useWebSocket = () => useContext(WebSocketContext);
 
 export const WebSocketProvider = ({children}) => {
     const [isConnected, setIsConnected] = useState(false);
-    const [userDetails, setUserDetails] = useState(null);
-    const [username, setUsername] = useState(null);
+    const userDetailsRef = useRef(null);
     const dispatch = useDispatch();
+    const {userDetails} = useSelector(state => state.userStore);
 
     useEffect(() => {
+        const getUserDetails = async () => {
+            try {
+                const response = await fetchUserDetails();
+                if (response.status) {
+                    userDetailsRef.current = response.object;
+                    dispatch(userActions.saveUser(response.object));
+                }
+            } catch (e) {
+                console.error("Failed to fetch user details:", e);
+            }
+        }
+        getUserDetails();
         const username = localStorage.getItem("username");
+
         if (username && !isConnected) {
-            setUsername(username);
             connect(username);
         }
     }, [isConnected]);
 
     const connect = async (username) => {
-        try {
-            const response = await fetchUserDetails();
-            if (response.status) {
-                setUserDetails(response.object)
-                dispatch(userDetailsActions.saveUser(response.object));
-            }
-        } catch (e) {
-            console.error("Failed to fetch user details:", e);
-        }
+
         if (!stompClient || !isConnected) {
-            const sock = new SockJS("http://localhost:8080/ws");
+            const sock = new SockJS(SOCKET_URL);
             stompClient = over(sock);
 
             stompClient.debug = null;
@@ -64,12 +70,12 @@ export const WebSocketProvider = ({children}) => {
 
     const onMessageReceived = (payload) => {
         const payloadData = JSON.parse(payload.body);
-        console.log("SOCKET RESPONSE RECEIVED : ", payloadData);
-        if (payloadData.type === "status") {
+        if (payloadData.type === "status" && payloadData.body !== userDetailsRef.current.playerName) {
+            console.log("Player Status Received : ", payloadData);
             dispatch(friendsActions.changeOnlineStatus({username: payloadData.body, status: payloadData.message}));
-        } else if (payloadData.type === "gameRequest") {
-            dispatch(gameActions.saveGame(payloadData.body));
-            dispatch(userDetailsActions.saveUser({inAGame: "REQUESTED"}));
+        } else if (payloadData.type === "gameRequest" && payloadData.message === userDetailsRef.current.playerName) {
+            console.log("Game Request Received : ",payloadData);
+            dispatch(gameActions.saveGameDetails(payloadData.body));
         }
     };
 

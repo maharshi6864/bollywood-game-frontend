@@ -15,6 +15,9 @@ import GuessingInput from "./GameComponents/GuessingInput.jsx";
 import Timer from "./GameComponents/Timer.jsx";
 import {SOCKET_URL} from "../../../apis/globalUrl.js";
 import {Bounce, toast, ToastContainer} from "react-toastify";
+import HintArea from "./GameComponents/HintArea.jsx";
+import AudioComponent from "./GameComponents/AudioComponent.jsx";
+
 
 let stompClient = null;
 
@@ -127,6 +130,8 @@ const GameStarted = ({setGameStart, setHomeLoading}) => {
         }else if (payloadData.type === "GameOver") {
             dispatch(gameActions.deleteGameDetails())
             setGameStart(false)
+        }else if(payloadData.type === "hintUpdated") {
+            dispatch(gameActions.updateHint({hint: payloadData.body}));
         }
     };
 
@@ -206,6 +211,18 @@ const GameStarted = ({setGameStart, setHomeLoading}) => {
         );
     }
 
+    const giveHint=async (hint) => {
+        let gameDto = {
+            hint:hint,
+            id:gameDetails.id,
+        }
+        stompClient.send(
+            "/app/game",
+            {},
+            JSON.stringify({message: "hintPassed", body: gameDto, type: "hintUpdated"})
+        );
+    }
+
     const changeStatusToGuessing = (askingOrNot) => {
         let data = {
             playerName: userDetails.playerName,
@@ -245,11 +262,11 @@ const GameStarted = ({setGameStart, setHomeLoading}) => {
         });
 
     return (
-        <div className="row">
-            <div className="col-md-8">
-                <div className="row">
+        <div className="row" >
+            <div className="col-md-8" >
+                <div className="row" >
                     <div className="col-12 ">
-                        <div className="card pt-3 border-0 border-bottom">
+                        <div className="card pt-3 border-0 border-bottom" >
                             <p className="text-start fs-4 mb-0">
                                 Game ID: {gameDetails.id}
                             </p>
@@ -297,6 +314,7 @@ const GameStarted = ({setGameStart, setHomeLoading}) => {
                     <div className="d-flex justify-content-center align-items-center "
                          style={{marginTop: "6rem", marginBottom: "0rem"}}>
                         <Timer timeStamp={gameDetails.roundTimeOut} completeThisRound={completeThisRound}></Timer>
+                        {/*<AudioComponent id={gameDetails.id}></AudioComponent>*/}
                         <p className={`${styles.responsiveText} mb-3 mt-5`}>
                             {bollywoodWord.map((ch, index) =>
                                 index < (9 - gameDetails.chanceLeft) ? (
@@ -306,6 +324,7 @@ const GameStarted = ({setGameStart, setHomeLoading}) => {
                                 )
                             )}
                         </p>
+                        <HintArea hint={gameDetails.hint} ></HintArea>
                     </div>
                     <MovieName movieName={gameDetails.movieName}
                                currentChancePlayerName={gameDetails.currentChancePlayerName === userDetails.playerName ? "You" : gameDetails.currentChancePlayerName}
@@ -315,7 +334,7 @@ const GameStarted = ({setGameStart, setHomeLoading}) => {
                                        show={gameDetails.movieName !== null} actualMovieName={gameDetails.movieName}
                                        previousGuesses={gameDetails.previousGuesses}></GuessingInput>) : (
                         <AskingInput changeStatusToAsking={changeStatusToAsking} askMovie={askMovie}
-                                     show={gameDetails.movieName == null}></AskingInput>)}
+                                     show={gameDetails.movieName == null} giveHint={giveHint} hint={gameDetails.hint}></AskingInput>)}
                 </div>)}
             </div>
             <div className="col-md-4 border-start">

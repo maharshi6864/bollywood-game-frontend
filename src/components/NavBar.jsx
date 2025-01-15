@@ -4,11 +4,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Link } from "react-router-dom";
 import '../css/navBarCustomCss.css';
+import {useSelector} from "react-redux";
+import {useEffect} from "react";
 
 let expand = false;
 
 function NavBar() { // Destructure username from props
-    const username = localStorage.getItem("username");
+    const {username} = useSelector((state) => state.userStore.userDetails);
     return (
         <>
             <Navbar

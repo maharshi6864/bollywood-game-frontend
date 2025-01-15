@@ -1,29 +1,44 @@
-// index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
 import store from "./store/store";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {Provider} from "react-redux";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import OtpConfirm from "./pages/OtpConfirm";
 import Logout from "./pages/Logout";
 import Friends from "./pages/Friends";
-import { WebSocketProvider } from "./WebSocketContext.jsx";
+import {WebSocketProvider} from "./WebSocketContext.jsx";
 import ProtectedRoutes from "./ProtectRoutes.jsx";
-
 
 window.global = window;
 
 const router = createBrowserRouter([
+    // Public routes (no WebSocketProvider)
+    {
+        path: "/login",
+        element: <Login/>,
+    },
+    {
+        path: "/register",
+        element: <Register/>,
+    },
+    {
+        path: "/confirmRegistration",
+        element: <OtpConfirm/>,
+    },
+
+    // Protected routes (wrapped with WebSocketProvider)
     {
         path: "/",
         element: (
             <ProtectedRoutes>
-                <Home />
+                <WebSocketProvider>
+                    <Home/>
+                </WebSocketProvider>
             </ProtectedRoutes>
         ),
     },
@@ -31,36 +46,22 @@ const router = createBrowserRouter([
         path: "/Friends",
         element: (
             <ProtectedRoutes>
-                <Friends />
+                <WebSocketProvider>
+                    <Friends/>
+                </WebSocketProvider>
             </ProtectedRoutes>
         ),
     },
     {
         path: "/logout",
         element: (
-            <ProtectedRoutes>
-                <Logout />
-            </ProtectedRoutes>
+            <Logout/>
         ),
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/register",
-        element: <Register />,
-    },
-    {
-        path: "/confirmRegistration",
-        element: <OtpConfirm />,
     },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
-        <WebSocketProvider>
-            <RouterProvider router={router} />
-        </WebSocketProvider>
+        <RouterProvider router={router}/>
     </Provider>
 );

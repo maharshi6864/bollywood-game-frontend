@@ -2,8 +2,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import RegisterLoginLayout from "../layout/RegisterLoginLayout";
 import { login } from "../apis/login.js";
-import { useEffect, useRef } from "react";
-import { useWebSocket } from "../WebSocketContext"; // Import WebSocket context
+import { useRef } from "react";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,7 +10,6 @@ const Login = () => {
     const username = useRef();
     const password = useRef();
     const navigate = useNavigate();
-    const { connect } = useWebSocket(); // Access connect function from WebSocket context
 
     const toastInvalidLogin = () =>
         toast.info("Username or password invalid.", {
@@ -29,10 +27,6 @@ const Login = () => {
         event.preventDefault();
         const response = await login(username.current.value, password.current.value);
         if (response.status) {
-            // Save username to localStorage for reconnection purposes
-            localStorage.setItem("username", username.current.value);
-            // Connect to WebSocket after successful login
-            connect(username.current.value); // Assumes you have access to connect from context
             navigate("/");
         } else {
             toastInvalidLogin();

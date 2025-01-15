@@ -7,10 +7,11 @@ import {friendsActions} from "../../../store/friendsStore.js";
 import JoinGameRequest from "./JoinGameRequest.jsx";
 import {gameActions} from "../../../store/gameStore.js";
 import {gameRequestReply} from "../../../apis/game.js";
+import {useNavigate} from "react-router-dom";
 
 const StartGame = ({setGameStart, setHomeLoading}) => {
     const [text, setText] = useState("");
-    const description = ` This Game is a fun and nostalgic guessing game inspired by a classic we used to play during college lectures. Players guess Bollywood movie names with only vowels visible while the rest remain hidden. Enjoy testing your Bollywood knowledge and have fun guessing!`;
+    const description = `  This Game is a fun and nostalgic guessing game inspired by a classic we used to play during college lectures. Players guess Bollywood movie names with only vowels visible while the rest remain hidden. Enjoy testing your Bollywood knowledge and have fun guessing!`;
     const [startGameModalShow, setStartGameModalShow] = useState(false);
     const [joinModelShow, setJoinModelShow] = useState(false);
     const {friendsList} = useSelector(state => state.friendsStore);
@@ -18,11 +19,12 @@ const StartGame = ({setGameStart, setHomeLoading}) => {
     const {userDetails} = useSelector(state => state.userStore);
     const [currentGameDetails, setCurrentGameDetails] = useState(null);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         let index = -1;
         const interval = setInterval(() => {
-            setText((prev) => prev + description[index]);
+            setText((prev) => prev + (description[index] !== undefined ? description[index] : ""));
             index++;
             if (index === description.length - 1) {
                 clearInterval(interval);
@@ -34,11 +36,15 @@ const StartGame = ({setGameStart, setHomeLoading}) => {
 
     useEffect(() => {
         const getFriends = async () => {
-            if (friendsList.length === 0) {
-                const response = await fetchFriends();
-                if (response.status) {
-                    dispatch(friendsActions.saveFriends({friendsList: response.object}));
+            try {
+                if (friendsList.length === 0) {
+                    const response = await fetchFriends();
+                    if (response.status) {
+                        dispatch(friendsActions.saveFriends({friendsList: response.object}));
+                    }
                 }
+            } catch (err) {
+                navigate("/logout")
             }
         };
 
@@ -100,7 +106,7 @@ const StartGame = ({setGameStart, setHomeLoading}) => {
                         style={{height: "10%"}}
                     >
                         <p className="fs-5 text-center"
-                           dangerouslySetInnerHTML={{ __html: text }}
+                           dangerouslySetInnerHTML={{__html: text}}
                         ></p>
                     </div>
                     <button
@@ -109,8 +115,8 @@ const StartGame = ({setGameStart, setHomeLoading}) => {
                     >
                         Start Game
                     </button>
-                    <hr className="w-50"/>
-                    <button className="btn btn-primary mb-2 fs-4">Join Game</button>
+                    {/*<hr className="w-50"/>*/}
+                    {/*<button className="btn btn-primary mb-2 fs-4">Join Game</button>*/}
                 </div>
             </div>
             <StartGameModal

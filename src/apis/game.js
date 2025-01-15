@@ -75,3 +75,20 @@ export const reSendRequestToPlayer = async (data) => {
 
   return response.json();
 }
+
+export const getHintFromAi = async (data) => {
+  const response = await fetch(GLOBAL_URL + "game/getHintFromAi", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    return {status: false};
+  }
+
+  return response.json();
+}

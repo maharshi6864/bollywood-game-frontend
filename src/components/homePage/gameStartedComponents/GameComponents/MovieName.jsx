@@ -6,7 +6,7 @@ const MovieName = ({ movieName, currentChancePlayerName }) => {
     return (
         <div
             className="d-flex justify-content-center align-items-center"
-            style={{ marginBottom: "10rem", marginTop: "2rem" }}
+            style={{ marginBottom: "12rem", marginTop: "2rem" }}
         >
             <p className="fs-1">
                 {movieName === null ? (

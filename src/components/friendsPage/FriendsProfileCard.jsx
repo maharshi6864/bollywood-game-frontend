@@ -15,7 +15,8 @@ const FriendsProfileCard = ({friend}) => {
             dispatch(friendsActions.removeFriend({id}));
         }
     };
-
+    console.log("Firend name : ",friend.friendName);
+    console.log(friend.status);
     return (
         <div className="col-12 col-sm-6 col-md-4">
             <div className="card mb-3 position-relative">

@@ -34,6 +34,10 @@ const gameSlice = createSlice({
             const {movieName,timeStamp} = action.payload;
             state.gameDetails.movieName = movieName;
             state.gameDetails.roundTimeOut = timeStamp;
+        },
+        updateHint:(state, action) => {
+            const {hint} = action.payload;
+            state.gameDetails.hint = hint;
         }
 
 

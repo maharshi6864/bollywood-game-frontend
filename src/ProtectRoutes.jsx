@@ -1,16 +1,38 @@
-// ProtectedRoute.jsx
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {Navigate, useNavigate} from "react-router-dom";
+import { fetchUserDetails } from "./apis/user";
+import { useDispatch } from "react-redux";
+import { userActions } from "./store/userStore";
 
 const ProtectedRoutes = ({ children }) => {
-    const username = localStorage.getItem("username");
+    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    if (!username) {
-        // Redirect to login page if the user is not authenticated
-        return <Navigate to="/login" replace />;
-    }
+    useEffect(() => {
+        const authenticateUser = async () => {
+            try {
+                const response = await fetchUserDetails();
+                if (response.status) {
+                    dispatch(userActions.saveUser(response.object));
+                } else {
+                console.log("Authenticate user");
+                    navigate("/login");
+                }
+            } catch (error) {
+                console.error("Error in fetching user details:", error);
+                navigate("/login");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    // Render the child component if authenticated
+        authenticateUser();
+    }, [dispatch]);
+
+    // Wait until user details are fetched
+    if (loading) return <div>Loading...</div>;
+
     return children;
 };
 
